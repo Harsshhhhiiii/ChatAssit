@@ -1,22 +1,15 @@
 import mongoose from "mongoose";
  
-const message = new  mongoose.Schema({
-  username : {
-      type :String,
-      required : true
 
-  },
-  message : {
-      type : String,
-      required : true
-  }
-})
 const messageSchema = new mongoose.Schema({
    username : {
         type :String,
         required : true
    },
-   messages : [message]
+   messages : {
+      type: String,
+      required:true ,
+   }
 },{
     timestamps : true
 });

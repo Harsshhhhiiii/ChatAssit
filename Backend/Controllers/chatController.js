@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import Message from "../Models/messagemodel.js";
 dotenv.config();
 
@@ -20,8 +21,11 @@ export const generateChatResponse = async (req, res) => {
       model: "gemini-2.0-flash",
       contents: message, 
     });
+    const username=req.cookies.jwt;
+    const decoded=jwt.verify(username,process.env.JWT_SECRET);
     const messagefromai= new Message({
-      message:  response.text,
+      username: decoded.username,
+      messages:  response.text,
     })
     console.log(messagefromai);
     console.log("Hi");

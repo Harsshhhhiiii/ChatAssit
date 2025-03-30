@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import User from "../Models/usermodel.js";
 import generateTokenAndSetCookie from "../Utils/generateToken.js";
 
-
 export const signupf = async (req, res) => {
 	try {
 		const {  username, password, confirmPassword } = req.body;
