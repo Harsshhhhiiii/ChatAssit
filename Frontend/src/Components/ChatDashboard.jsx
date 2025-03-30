@@ -20,20 +20,22 @@ const ChatDashboard = () => {
       setError(null);
 
       try {
-        const token = localStorage.getItem("token");
+        
         const response = await fetch("http://localhost:3001/api/chat/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json"
            },
+           credentials: "include",
           body: JSON.stringify({ message: input })
         });
         
         if (!response.ok) throw new Error("Failed to fetch response");
         
         const data = await response.json();
-        
-        if (data.reply) {
+        console.log(data.reply);
+        if (data.reply ) {
           setMessages((prevMessages) => [...prevMessages, { text: data.reply, user: "AI" }]);
+          console.log(messages)
         }
       } catch (error) {
         setError("Failed to fetch AI response. Please try again.");

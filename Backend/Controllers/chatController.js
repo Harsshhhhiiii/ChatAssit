@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
-
+import Message from "../Models/messagemodel.js";
 dotenv.config();
 
 const ai = new GoogleGenAI({
@@ -20,6 +20,12 @@ export const generateChatResponse = async (req, res) => {
       model: "gemini-2.0-flash",
       contents: message, 
     });
+    const messagefromai= new Message({
+      message:  response.text,
+    })
+    console.log(messagefromai);
+    console.log("Hi");
+    await messagefromai.save();
 
     res.status(200).json({ reply: response.text });
   } catch (error) {

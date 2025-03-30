@@ -27,13 +27,13 @@ export const signupf = async (req, res) => {
 			password: hashedPassword
 			
 		});
-		generateTokenAndSetCookie(newUser._id, res);
+		generateTokenAndSetCookie(newUser.username, res);
 		if (newUser) {
 			
 			await newUser.save();
 
 			res.status(201).json({
-				_id: newUser._id,
+				
 				username: newUser.username,
 			});
 		} else {
@@ -56,10 +56,10 @@ export const signupf = async (req, res) => {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
 
-		generateTokenAndSetCookie(user._id, res);
+		generateTokenAndSetCookie(user.username, res);
    
 		res.status(200).json({
-			_id: user._id,
+			
 			username: user.username,
 		});
 	} catch (error) {
