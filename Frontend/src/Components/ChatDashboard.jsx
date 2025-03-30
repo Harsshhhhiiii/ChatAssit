@@ -1,15 +1,27 @@
- import React from 'react'
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
+
+const loadMessages = () => {
+  const savedMessages = localStorage.getItem("chatMessages");
+  return savedMessages ? JSON.parse(savedMessages) : [];
+};
 
 const ChatDashboard = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(loadMessages());
+  const { authUser } = useAuthContext();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [activePage, setActivePage] = useState("Dashboard");
+
   const navigate = useNavigate();
+
+  // Save messages to localStorage on state update
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
 
   const sendMessage = async () => {
     if (input.trim()) {
@@ -20,22 +32,18 @@ const ChatDashboard = () => {
       setError(null);
 
       try {
-        
         const response = await fetch("http://localhost:3001/api/chat/generate", {
           method: "POST",
-          headers: { "Content-Type": "application/json"
-           },
-           credentials: "include",
-          body: JSON.stringify({ message: input })
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ message: input }),
         });
-        
+
         if (!response.ok) throw new Error("Failed to fetch response");
-        
+
         const data = await response.json();
-        console.log(data.reply);
-        if (data.reply ) {
+        if (data.reply) {
           setMessages((prevMessages) => [...prevMessages, { text: data.reply, user: "AI" }]);
-          console.log(messages)
         }
       } catch (error) {
         setError("Failed to fetch AI response. Please try again.");
@@ -92,14 +100,11 @@ const ChatDashboard = () => {
       <main className="flex-1 p-6">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl font-semibold">Good Morning, John</h1>
+          <h1 className="text-xl font-semibold">
+            Hello <span>{authUser?.username || "Guest"}</span> !!
+          </h1>
           <div className="flex space-x-4">
             <span className="w-6 h-6 bg-gray-300 rounded-full"></span>
-            <img
-              src="https://via.placeholder.com/40"
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full"
-            />
           </div>
         </div>
 
@@ -108,7 +113,10 @@ const ChatDashboard = () => {
           <h2 className="text-lg font-semibold">Chat with AI</h2>
           <div className="space-y-2 mt-4 max-h-96 overflow-y-auto">
             {messages.map((msg, idx) => (
-              <div key={idx} className={`p-3 rounded-lg ${msg.user === "You" ? "bg-blue-100 text-right" : "bg-gray-100"}`}>
+              <div 
+                key={idx} 
+                className={`p-3 rounded-lg ${msg.user === "You" ? "bg-blue-100 text-right" : "bg-gray-100"}`}
+              >
                 <strong>{msg.user}:</strong> {msg.text}
               </div>
             ))}
@@ -133,6 +141,6 @@ const ChatDashboard = () => {
       </main>
     </div>
   );
-}
+};
 
 export default ChatDashboard;

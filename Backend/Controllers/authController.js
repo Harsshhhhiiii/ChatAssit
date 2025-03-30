@@ -31,7 +31,7 @@ export const signupf = async (req, res) => {
 		if (newUser) {
 			
 			await newUser.save();
-
+            
 			res.status(201).json({
 				
 				username: newUser.username,

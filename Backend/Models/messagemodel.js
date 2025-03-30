@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
  
-const messageSchema = new mongoose.Schema({
-   message : {
+const message = new  mongoose.Schema({
+  username : {
+      type :String,
+      required : true
+
+  },
+  message : {
       type : String,
       required : true
-   }
+  }
+})
+const messageSchema = new mongoose.Schema({
+   username : {
+        type :String,
+        required : true
+   },
+   messages : [message]
 },{
     timestamps : true
 });

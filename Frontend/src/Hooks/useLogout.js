@@ -8,6 +8,7 @@ const useLogout = () => {
 
   const logout = () => {
     localStorage.removeItem("chat-user");
+    localStorage.removeItem("chatMessages");
 
     setAuthUser(null); 
     toast.success("Logged out successfully.");
