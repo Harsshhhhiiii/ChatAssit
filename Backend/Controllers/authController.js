@@ -27,9 +27,9 @@ export const signupf = async (req, res) => {
 			password: hashedPassword
 			
 		});
-
+		generateTokenAndSetCookie(newUser._id, res);
 		if (newUser) {
-			generateTokenAndSetCookie(newUser._id, res);
+			
 			await newUser.save();
 
 			res.status(201).json({

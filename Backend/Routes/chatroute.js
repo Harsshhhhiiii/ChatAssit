@@ -1,9 +1,9 @@
 import express from "express";
-import protectRoute from "../middleware/protectRoute.js";
+import { generateChatResponse } from "../Controllers/chatController.js";
+import protectRoute from "../Middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/:id", protectRoute, );
-
+router.post("/generate", protectRoute, generateChatResponse);
 
 export default router;
