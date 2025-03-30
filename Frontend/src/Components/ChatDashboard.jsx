@@ -36,7 +36,7 @@ const ChatDashboard = () => {
       setError(null);
 
       try {
-        const response = await fetch("https://chat-assit.vercel.app/api/chat/generate", {
+        const response = await fetch("https://chatassit.onrender.com/api/chat/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",

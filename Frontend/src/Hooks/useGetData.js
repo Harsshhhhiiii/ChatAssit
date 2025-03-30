@@ -19,7 +19,7 @@ const useGetData = () => {
     const fetchMessages = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`https://chat-assit.vercel.app/api/message/previous-chats/${username}`,{
+        const response = await fetch(`https://chatassit.onrender.com/api/message/previous-chats/${username}`,{
           method:"GET",
           headers: { "Content-Type": "application/json" },
           credentials:"include"
