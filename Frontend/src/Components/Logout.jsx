@@ -1,7 +1,6 @@
-import useLogout from "../hooks/useLogout";
 import { toast } from "react-toastify";
 import { useState } from "react";
-
+import useLogout from "../Hooks/useLogout"
 
 const Logout = () => {
     const { logout } = useLogout();
