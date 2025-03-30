@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 const Check = () => {
     useEffect(()=>{
         const x=async(req,res)=>{
-            const res2=await fetch("http://localhost:3001")
+            const res2=await fetch("https://chat-assit.vercel.app")
             const data=await res2.json();
             console.log(data);
         }
