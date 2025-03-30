@@ -15,12 +15,16 @@ const ChatDashboard = () => {
   const [error, setError] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [activePage, setActivePage] = useState("Dashboard");
+  const [userId,setUserId]=useState()
 
   const navigate = useNavigate();
 
   // Save messages to localStorage on state update
   useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
+    const storedUser = localStorage.getItem("chat-user");
+    const username = storedUser ? JSON.parse(storedUser).username : authUser?.username;
+    setUserId(username)
   }, [messages]);
 
   const sendMessage = async () => {
@@ -58,7 +62,7 @@ const ChatDashboard = () => {
     if (page === "Logout") {
       navigate("/logout");
     } else if (page === "View Previous Chats") {
-      navigate("/previous-chats");
+      navigate(`/previous-chats/${userId}`);
     }
   };
 

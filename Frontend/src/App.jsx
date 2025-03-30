@@ -8,7 +8,7 @@ import { useAuthContext } from "./context/AuthContext";
 import ChatDashboard from "./Components/ChatDashboard";
 import Logout from "./Components/Logout";
 import { ToastContainer } from "react-toastify";
-import Check from "./Components/check";
+import ChatHistory from "./Components/ChatHistory";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -19,8 +19,8 @@ function App() {
 				<Route path='/signup' element={authUser ? <Navigate to='/chatdashboard' /> : <SignUp />} />
 				<Route path='/logout' element={(authUser )? <Logout /> : <SignUp />} />
 				<Route path='/chatdashboard' element={(authUser )? <ChatDashboard /> : <SignUp />} />
-				<Route path='/check' element={<Check/>}  />
 				<Route path='/' element={(authUser )? <ChatDashboard /> : <SignUp />} />
+				<Route path='/previous-chats/:username' element={(authUser )? <ChatHistory /> : <Login />} />
 			</Routes>
 			<Toaster />
 			<ToastContainer />

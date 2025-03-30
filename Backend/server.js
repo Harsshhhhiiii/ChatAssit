@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import authroute from './Routes/authroute.js';
 import chatroute from './Routes/chatroute.js'
+import messageroute from './Routes/messageroute.js'
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(cors({
 });
 app.use('/api/auth',authroute);
 app.use('/api/chat',chatroute);
+app.use('/api/message',messageroute);
 
 
 const mongoURI=process.env.MONGODB_URI;
