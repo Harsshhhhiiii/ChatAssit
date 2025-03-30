@@ -6,14 +6,16 @@ const protectRoute = async (req, res, next) => {
 		const token = req.cookies.jwt; 
 		console.log(token)
 
+
 		if (!token) {
+            console.log("token is not present")
 			return res.status(401).json({ error: "Unauthorized - No Token Provided" });
 		}
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		console.log("decoded meassage "+decoded);
 
 		if (!decoded) {
-            console.log("not decoded token not found")
+            console.log("unable to decode")
 			return res.status(401).json({ error: "Unauthorized - Invalid Token" });
 
 		}
