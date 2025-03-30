@@ -46,6 +46,7 @@ const ChatDashboard = () => {
         if (!response.ok) throw new Error("Failed to fetch response");
 
         const data = await response.json();
+        console.log(data)
         if (data.reply) {
           setMessages((prevMessages) => [...prevMessages, { text: data.reply, user: "AI" }]);
         }
