@@ -36,7 +36,12 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' });
 });
-
+app.get('/health',(req,res)=>{
+  res.status(200).json({
+    code:200,
+    message:"Server is Healthy"
+  })
+})
 app.use('/api/auth', authroute);
 app.use('/api/chat', chatroute);
 app.use('/api/message', messageroute);
