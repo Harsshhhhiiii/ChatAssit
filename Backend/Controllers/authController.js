@@ -31,28 +31,20 @@ export const signupf = async (req, res) => {
 			expiresIn: "3d",
 		  });
 	  
-		  console.log("Generated JWT Token:", token); // Debugging
-	  
-		//   res.cookie("jwt", token, {
-		// 	httpOnly: true,
-		// 	secure: true, 
-		// 	sameSite: "None", 
-		//   });
-
-		  res.cookie("jwt", token, {
-			httpOnly: true,
-			secure: true, 
-			sameSite: "None",
-			path: "/", 
-			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
-		  });
+		  console.log("Generated JWT Token:", token);
 		  console.log(req.cookies.jwt);
 
 		if (newUser) {
 			
 			await newUser.save();
             
-			res.status(201).json({
+			res.cookie("jwt", token, {
+				httpOnly: true,
+				secure: true,
+				sameSite: "None",
+				path: "/",
+				maxAge: 3 * 24 * 60 * 60 * 1000,  
+			  }).status(201).json({
 				
 				username: newUser.username,
 			});
@@ -81,26 +73,12 @@ export const signupf = async (req, res) => {
 		  });
 	  
 		  console.log("Generated JWT Token:", token); 
-	  
-		//   res.cookie("jwt", token, {
-		// 	httpOnly: true,
-		// 	secure: true,
-		// 	sameSite: "None", 
-		//   });
-		//   res.cookie("jwt", token, {
-		// 	httpOnly: true,
-		// 	secure: true,  // ✅ Only secure in production
-		// 	sameSite: "None",
-		// 	path: "/",  // ✅ Ensure cookie applies to all routes
-		// 	maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
-		//   });
-   
 		res.cookie("jwt", token, {
 			httpOnly: true,
-			secure: true,  // ✅ Only secure in production
+			secure: true,
 			sameSite: "None",
-			path: "/",  // ✅ Ensure cookie applies to all routes
-			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
+			path: "/",
+			maxAge: 3 * 24 * 60 * 60 * 1000,  
 		  }).status(200).json({
 			
 			username: user.username,
