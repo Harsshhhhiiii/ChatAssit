@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../Models/usermodel.js";
-import generateTokenAndSetCookie from "../Utils/generateToken.js";
-
+import jwt from "jsonwebtoken"
 export const signupf = async (req, res) => {
 	try {
 		const {  username, password, confirmPassword } = req.body;
@@ -26,7 +25,20 @@ export const signupf = async (req, res) => {
 			password: hashedPassword
 			
 		});
-		generateTokenAndSetCookie(newUser.username, res);
+        
+		
+		const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+			expiresIn: "3d",
+		  });
+	  
+		  console.log("Generated JWT Token:", token); // Debugging
+	  
+		  res.cookie("jwt", token, {
+			httpOnly: true,
+			secure: true, 
+			sameSite: "None", 
+		  });
+
 		if (newUser) {
 			
 			await newUser.save();
@@ -54,8 +66,18 @@ export const signupf = async (req, res) => {
 		if (!user || !isPasswordCorrect) {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
-
-		generateTokenAndSetCookie(user.username, res);
+        
+		const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+			expiresIn: "3d",
+		  });
+	  
+		  console.log("Generated JWT Token:", token); 
+	  
+		  res.cookie("jwt", token, {
+			httpOnly: true,
+			secure: true,
+			sameSite: "None", 
+		  });
    
 		res.status(200).json({
 			

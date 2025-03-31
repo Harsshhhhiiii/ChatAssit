@@ -15,29 +15,23 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cookieParser());
 
-
 const allowedOrigins = [
   "https://chat-assit.vercel.app",
-  "https://chat-assit-git-main-harshits-projects-99ccb490.vercel.app", // Added Vercel preview URL
+  "https://chat-assit-git-main-harshits-projects-99ccb490.vercel.app",
   "http://localhost:5173"
 ];
 
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,  
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-  }
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
+  console.log("Cookies received:", req.cookies); 
   next();
 });
-
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' });
