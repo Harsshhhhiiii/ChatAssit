@@ -29,7 +29,7 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-  console.log("Cookies received:", req.cookies); 
+  console.log("Cookies received:", req.cookies.jwt); 
   next();
 });
 
