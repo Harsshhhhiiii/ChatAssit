@@ -27,24 +27,18 @@ export const signupf = async (req, res) => {
 		});
         
 		
-		const token = jwt.sign({ username }, process.env.JWT_SECRET, {
-			expiresIn: "3d",
-		  });
+		// const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+		// 	expiresIn: "3d",
+		//   });
 	  
-		  console.log("Generated JWT Token:", token);
-		  console.log(req.cookies.jwt);
+		//   console.log("Generated JWT Token:", token);
+		//   console.log(req.cookies.jwt);
 
 		if (newUser) {
 			
 			await newUser.save();
             
-			res.cookie("jwt", token, {
-				httpOnly: true,
-				secure: true,
-				sameSite: "None",
-				path: "/",
-				maxAge: 3 * 24 * 60 * 60 * 1000,  
-			  }).status(201).json({
+			res.status(201).json({
 				
 				username: newUser.username,
 			});

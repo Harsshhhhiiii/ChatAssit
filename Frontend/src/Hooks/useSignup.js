@@ -1,8 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const useSignup = () => {
+	const navigate= useNavigate();
 	const [loading, setLoading] = useState(false);
 	const { setAuthUser } = useAuthContext();
 
@@ -23,7 +25,9 @@ const useSignup = () => {
 				throw new Error(data.error);
 			}
 			localStorage.setItem("chat-user", JSON.stringify(data));
-			setAuthUser(data);
+			// setAuthUser(data);
+			navigate("/login");
+
 		} catch (error) {
 			toast.error(error.message);
 		} finally {

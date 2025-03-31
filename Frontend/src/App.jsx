@@ -12,11 +12,12 @@ import ChatHistory from "./Components/ChatHistory";
 
 function App() {
 	const { authUser } = useAuthContext();
+	console.log(authUser);
 	return (
 		<div className='p-4 h-screen flex items-center justify-center'>
 			<Routes>
 				<Route path='/login' element={authUser ? <Navigate to='/chatdashboard' /> : <Login />} />
-				<Route path='/signup' element={authUser ? <Navigate to='/chatdashboard' /> : <SignUp />} />
+				<Route path='/signup' element={<SignUp />} />
 				<Route path='/logout' element={(authUser )? <Logout /> : <SignUp />} />
 				<Route path='/chatdashboard' element={(authUser )? <ChatDashboard /> : <SignUp />} />
 				<Route path='/' element={(authUser )? <ChatDashboard /> : <SignUp />} />
