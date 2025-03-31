@@ -7,4 +7,3 @@ const router = express.Router();
 router.post("/generate", generateChatResponse);
 
 export default router;
-git add .
