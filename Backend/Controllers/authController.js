@@ -41,11 +41,12 @@ export const signupf = async (req, res) => {
 
 		  res.cookie("jwt", token, {
 			httpOnly: true,
-			secure: true,  // ✅ Only secure in production
+			secure: true, 
 			sameSite: "None",
-			path: "/",  // ✅ Ensure cookie applies to all routes
+			path: "/", 
 			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
 		  });
+		  console.log(req.cookies.jwt);
 
 		if (newUser) {
 			
@@ -86,15 +87,21 @@ export const signupf = async (req, res) => {
 		// 	secure: true,
 		// 	sameSite: "None", 
 		//   });
-		  res.cookie("jwt", token, {
+		//   res.cookie("jwt", token, {
+		// 	httpOnly: true,
+		// 	secure: true,  // ✅ Only secure in production
+		// 	sameSite: "None",
+		// 	path: "/",  // ✅ Ensure cookie applies to all routes
+		// 	maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
+		//   });
+   
+		res.cookie("jwt", token, {
 			httpOnly: true,
 			secure: true,  // ✅ Only secure in production
 			sameSite: "None",
 			path: "/",  // ✅ Ensure cookie applies to all routes
 			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
-		  });
-   
-		res.status(200).json({
+		  }).status(200).json({
 			
 			username: user.username,
 		});
