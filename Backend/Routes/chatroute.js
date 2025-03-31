@@ -4,6 +4,6 @@ import protectRoute from "../Middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.post("/generate", generateChatResponse);
+router.post("/generate",protectRoute, generateChatResponse);
 
 export default router;
