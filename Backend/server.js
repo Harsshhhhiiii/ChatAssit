@@ -12,37 +12,41 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS Configuration
+
 const allowedOrigins = [
   "https://chat-assit.vercel.app",
+  "https://chat-assit-git-main-harshits-projects-99ccb490.vercel.app", // Added Vercel preview URL
   "http://localhost:5173"
 ];
 
-app.use(cors({
-  origin: allowedOrigins,  
-  credentials: true,  
-  methods: "GET,POST,PUT,DELETE,OPTIONS",  
-  allowedHeaders: "Content-Type,Authorization"
-}));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
 
-// Handle preflight requests
-app.options("*", cors()); 
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
-// Test Route
+  next();
+});
+
+
 app.get('/', (req, res) => {
   res.json({ message: 'Hello World!' });
 });
 
-// Routes
 app.use('/api/auth', authroute);
 app.use('/api/chat', chatroute);
 app.use('/api/message', messageroute);
 
-// Connect to MongoDB
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI)
