@@ -5,6 +5,7 @@ import { useAuthContext } from "../context/AuthContext";
 const useGetData = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  
   const { authUser } = useAuthContext();
   // Ensure correct parsing of stored user data
   const storedUser = localStorage.getItem("chat-user");

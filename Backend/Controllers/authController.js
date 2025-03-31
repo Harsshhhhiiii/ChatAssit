@@ -33,10 +33,18 @@ export const signupf = async (req, res) => {
 	  
 		  console.log("Generated JWT Token:", token); // Debugging
 	  
+		//   res.cookie("jwt", token, {
+		// 	httpOnly: true,
+		// 	secure: true, 
+		// 	sameSite: "None", 
+		//   });
+
 		  res.cookie("jwt", token, {
 			httpOnly: true,
-			secure: true, 
-			sameSite: "None", 
+			secure: true,  // ✅ Only secure in production
+			sameSite: "None",
+			path: "/",  // ✅ Ensure cookie applies to all routes
+			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
 		  });
 
 		if (newUser) {
@@ -73,10 +81,17 @@ export const signupf = async (req, res) => {
 	  
 		  console.log("Generated JWT Token:", token); 
 	  
+		//   res.cookie("jwt", token, {
+		// 	httpOnly: true,
+		// 	secure: true,
+		// 	sameSite: "None", 
+		//   });
 		  res.cookie("jwt", token, {
 			httpOnly: true,
-			secure: true,
-			sameSite: "None", 
+			secure: true,  // ✅ Only secure in production
+			sameSite: "None",
+			path: "/",  // ✅ Ensure cookie applies to all routes
+			maxAge: 3 * 24 * 60 * 60 * 1000,  // ✅ 3 days
 		  });
    
 		res.status(200).json({
