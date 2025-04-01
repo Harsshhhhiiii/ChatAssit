@@ -2,9 +2,9 @@ import Tasks  from './StaticDatas.js';
 import dotenv from 'dotenv';
 dotenv.config()
 const firstFiveTasks = Tasks.Tasks.slice(0, 5);
-const firstFiveTechMessages = Tasks.TechGroupMessages.slice(0, 15);
-const firstFiveSalesMessages = Tasks.SalesGroupMessages.slice(0, 15);  
-const firstFiveDesignMessages = Tasks.DesignGroupMessages.slice(0, 15);  
+const firstFiveTechMessages = Tasks.TechGroupMessages.slice(0, 5);
+const firstFiveSalesMessages = Tasks.SalesGroupMessages.slice(0, 5);  
+const firstFiveDesignMessages = Tasks.DesignGroupMessages.slice(0, 5);  
 const GROQ_API_KEY=process.env.GROQ_API_KEY;
 console.log(GROQ_API_KEY)
 const SYSTEM_PROMPT_ = `
