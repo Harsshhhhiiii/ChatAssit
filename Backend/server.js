@@ -22,7 +22,8 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://chat-assit.vercel.app",
   "https://chat-assit-git-main-harshits-projects-99ccb490.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
+  "https://chat-assit-git-researchify-harshits-projects-99ccb490.vercel.app"
 ];
 
 app.use(cors({
