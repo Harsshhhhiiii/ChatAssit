@@ -1103,5 +1103,187 @@ const DesignTeamUsers = [
     "joinedDate": "2022-05-17"
   }
 ]
+const Sales = [
+  {
+    "sale_id": 1,
+    "customer_name": "John Doe",
+    "product": "Laptop",
+    "category": "Electronics",
+    "quantity": 1,
+    "price_per_unit": 1000,
+    "total_amount": 1000,
+    "sale_date": "2025-03-20",
+    "payment_method": "Credit Card",
+    "status": "Completed"
+  },
+  {
+    "sale_id": 2,
+    "customer_name": "Jane Smith",
+    "product": "Smartphone",
+    "category": "Electronics",
+    "quantity": 2,
+    "price_per_unit": 500,
+    "total_amount": 1000,
+    "sale_date": "2025-03-21",
+    "payment_method": "PayPal",
+    "status": "Completed"
+  },
+  {
+    "sale_id": 3,
+    "customer_name": "Emily Johnson",
+    "product": "Table",
+    "category": "Furniture",
+    "quantity": 1,
+    "price_per_unit": 150,
+    "total_amount": 150,
+    "sale_date": "2025-03-19",
+    "payment_method": "Debit Card",
+    "status": "Pending"
+  },
+  {
+    "sale_id": 4,
+    "customer_name": "Michael Brown",
+    "product": "Refrigerator",
+    "category": "Appliances",
+    "quantity": 1,
+    "price_per_unit": 800,
+    "total_amount": 800,
+    "sale_date": "2025-03-22",
+    "payment_method": "Credit Card",
+    "status": "Shipped"
+  },
+  {
+    "sale_id": 5,
+    "customer_name": "Chris Wilson",
+    "product": "Microwave Oven",
+    "category": "Appliances",
+    "quantity": 1,
+    "price_per_unit": 120,
+    "total_amount": 120,
+    "sale_date": "2025-03-18",
+    "payment_method": "UPI",
+    "status": "Completed"
+  },
+  {
+    "sale_id": 6,
+    "customer_name": "Laura Adams",
+    "product": "Desk Chair",
+    "category": "Furniture",
+    "quantity": 2,
+    "price_per_unit": 75,
+    "total_amount": 150,
+    "sale_date": "2025-03-17",
+    "payment_method": "Net Banking",
+    "status": "Completed"
+  },
+  {
+    "sale_id": 7,
+    "customer_name": "Tom Harris",
+    "product": "Air Conditioner",
+    "category": "Appliances",
+    "quantity": 1,
+    "price_per_unit": 500,
+    "total_amount": 500,
+    "sale_date": "2025-03-16",
+    "payment_method": "Credit Card",
+    "status": "Shipped"
+  },
+  {
+    "sale_id": 8,
+    "customer_name": "Anna White",
+    "product": "LED TV",
+    "category": "Electronics",
+    "quantity": 1,
+    "price_per_unit": 700,
+    "total_amount": 700,
+    "sale_date": "2025-03-15",
+    "payment_method": "Debit Card",
+    "status": "Completed"
+  },
+  {
+    "sale_id": 9,
+    "customer_name": "David Clark",
+    "product": "Washing Machine",
+    "category": "Appliances",
+    "quantity": 1,
+    "price_per_unit": 650,
+    "total_amount": 650,
+    "sale_date": "2025-03-14",
+    "payment_method": "Cash",
+    "status": "Pending"
+  },
+  {
+    "sale_id": 10,
+    "customer_name": "Sophie Lee",
+    "product": "Bookshelf",
+    "category": "Furniture",
+    "quantity": 1,
+    "price_per_unit": 200,
+    "total_amount": 200,
+    "sale_date": "2025-03-13",
+    "payment_method": "UPI",
+    "status": "Completed"
+  }
+]
 
-export default {Tasks,Groups,TechGroupMessages,SalesGroupMessages,DesignGroupMessages,DesignTeamUsers}
+const Insights = [
+  {
+    "id": 1,
+    "title": "Research AI & ML Trends",
+    "description": "Analyze the latest advancements in AI, including smaller LLMs and AI chip development.",
+    "assigned_to": "Team AI",
+    "status": "Ongoing",
+    "progress": "60%"
+  },
+  {
+    "id": 2,
+    "title": "Evaluate Cybersecurity Strategies",
+    "description": "Assess new trends in Zero Trust security and post-quantum cryptography.",
+    "assigned_to": "Cybersecurity Team",
+    "status": "Pending",
+    "progress": "20%"
+  },
+  {
+    "id": 3,
+    "title": "Document Software Development Trends",
+    "description": "Investigate the adoption of Rust, WebAssembly, and low-code platforms.",
+    "assigned_to": "DevOps Team",
+    "status": "Ongoing",
+    "progress": "50%"
+  },
+  {
+    "id": 4,
+    "title": "Analyze Cloud Computing Shifts",
+    "description": "Track changes in serverless computing, multi-cloud adoption, and confidential computing.",
+    "assigned_to": "Cloud Team",
+    "status": "In Progress",
+    "progress": "40%"
+  },
+  {
+    "id": 5,
+    "title": "Networking & Infrastructure Enhancements",
+    "description": "Study Wi-Fi 7, Edge Computing, and IPv6 adoption trends.",
+    "assigned_to": "Network Team",
+    "status": "Pending",
+    "progress": "10%"
+  },
+  {
+    "id": 6,
+    "title": "Monitor Hardware Innovations",
+    "description": "Explore advancements in RISC-V architecture and 3D chip stacking.",
+    "assigned_to": "Hardware Team",
+    "status": "Ongoing",
+    "progress": "30%"
+  },
+  {
+    "id": 7,
+    "title": "Investigate Data Science Techniques",
+    "description": "Assess the impact of federated learning, data mesh, and graph databases.",
+    "assigned_to": "Data Science Team",
+    "status": "In Progress",
+    "progress": "50%"
+  }
+]
+
+
+export default {Insights,Sales,Tasks,Groups,TechGroupMessages,SalesGroupMessages,DesignGroupMessages,DesignTeamUsers}

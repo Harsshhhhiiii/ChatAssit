@@ -10,7 +10,9 @@ import TechGroupMessages from './StaticDatas.js'
 import SalesGroupMessages from './StaticDatas.js'
 import DesignGroupMessages from './StaticDatas.js'
 import Tasks  from './StaticDatas.js';
+import Insights  from './StaticDatas.js';
 import AIAgent from './AIAgent.js';
+import Sales from './StaticDatas.js'
 dotenv.config();
 
 const app = express();
@@ -76,6 +78,16 @@ app.get('/api/groups',(req,res)=>{
 app.get('/api/tasks',(req,res)=>{
   res.status(200).json({
     tasks:Tasks
+  })
+})
+app.get('/api/sales',(req,res)=>{
+  res.status(200).json({
+    Sales:Sales
+  })
+})
+app.get('/api/insights',(req,res)=>{
+  res.status(200).json({
+    Insights:Insights
   })
 })
 
