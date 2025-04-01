@@ -11,13 +11,14 @@ const loadMessages = () => {
   return savedMessages ? JSON.parse(savedMessages) : [];
 };
 
-const ChatDashboard = () => {
+const Home = () => {
   const [messages, setMessages] = useState(loadMessages());
   const { authUser } = useAuthContext();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
+  
   useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
   }, [messages]);
@@ -94,4 +95,4 @@ const ChatDashboard = () => {
   );
 };
 
-export default ChatDashboard;
+export default Home;
