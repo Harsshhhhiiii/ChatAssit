@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { FiLogOut } from "react-icons/fi";
+import { FaRegCommentDots } from "react-icons/fa";
 
 const loadMessages = () => {
   const savedMessages = localStorage.getItem("chatMessages");
@@ -14,17 +15,29 @@ const ChatDashboard = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-  const [activePage, setActivePage] = useState("Dashboard");
-  const [userId, setUserId] = useState();
-
+  const [groups, setGroups] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
-    const storedUser = localStorage.getItem("chat-user");
-    const username = storedUser ? JSON.parse(storedUser).username : authUser?.username;
-    setUserId(username);
+
+    const getGroups = async () => {
+      const response = await fetch("http://localhost:3001/api/groups");
+      const data = await response.json();
+      setGroups(data.groups);
+    };
+    getGroups();
+
+    const getTasks = async () => {
+      const response = await fetch("http://localhost:3001/api/tasks");
+      const data = await response.json();
+      console.log(data.tasks.Tasks)
+      const taskArray = data.tasks.Tasks.filter((e) => e.assignedTo == 101);
+      
+      setTasks(taskArray);
+    };
+    getTasks();
   }, [messages]);
 
   const sendMessage = async () => {
@@ -36,18 +49,13 @@ const ChatDashboard = () => {
       setError(null);
 
       try {
-        const response = await fetch("https://chatassit.onrender.com/api/chat/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ message: input }),
-        });
-
+        const response = await fetch(`http://localhost:3001/api/information?question=${input}`);
         if (!response.ok) throw new Error("Failed to fetch response");
 
         const data = await response.json();
-        if (data.reply) {
-          setMessages((prevMessages) => [...prevMessages, { text: data.reply, user: "AI" }]);
+        console.log(data)
+        if (data.answer) {
+          setMessages((prevMessages) => [...prevMessages, { text: data.answer, user: "AI" }]);
         }
       } catch (error) {
         setError("Failed to fetch AI response. Please try again.");
@@ -57,87 +65,100 @@ const ChatDashboard = () => {
     }
   };
 
-  const handleNavigation = (page) => {
-    setActivePage(page);
-    if (page === "Logout") {
-      navigate("/logout");
-    } else if (page === "View Previous Chats") {
-      navigate(`/previous-chats/${userId}`);
-    }
+  const handleClick = (groupName) => {
+    // You can change the path or logic here to navigate based on `groupName`
+    navigate(`/groups/${groupName}`);
   };
 
+
   return (
-    <div className="flex h-screen w-full bg-gradient-to-br from-blue-100 to-indigo-300 p-6">
+    <div className="flex h-screen w-full bg-gray-100 p-4">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-xl p-6 rounded-lg relative">
-        <FiLogOut 
-          className="absolute top-4 left-4 text-red-500 text-2xl cursor-pointer hover:text-red-700"
-          onClick={() => navigate("/logout")}
-        />
-        <h2 className="text-lg font-semibold text-center text-gray-700">Menu</h2>
-        <ul className="mt-6 space-y-4">
-          <li 
-            className={`p-3 rounded-lg cursor-pointer text-gray-700 font-semibold ${activePage === "Dashboard" ? "bg-blue-300 text-white" : "hover:bg-gray-200"}`}
-            onClick={() => handleNavigation("Dashboard")}
-          >
-            Dashboard
-          </li>
-          <li className="p-3 cursor-pointer hover:bg-gray-200 rounded-lg" onClick={() => setShowSettings(!showSettings)}>
-            Settings
-          </li>
-          {showSettings && (
-            <ul className="ml-4 mt-2 space-y-2">
-              <li 
-                className="p-3 bg-red-300 text-white rounded-lg cursor-pointer hover:bg-red-400" 
-                onClick={() => handleNavigation("Logout")}
-              >
-                Logout
-              </li>
-            </ul>
-          )}
-          <li 
-            className={`p-3 cursor-pointer rounded-lg text-gray-700 font-semibold ${activePage === "View Previous Chats" ? "bg-blue-300 text-white" : "hover:bg-gray-200"}`}
-            onClick={() => handleNavigation("View Previous Chats")}
-          >
-            View Previous Chats
-          </li>
+      <aside className="w-1/5 bg-white shadow-md p-6 rounded-lg">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-lg font-semibold text-gray-700">Menu</h2>
+          <FiLogOut
+            className="text-red-500 text-2xl cursor-pointer hover:text-red-700"
+            onClick={() => navigate("/logout")}
+          />
+        </div>
+        <ul className="space-y-4">
+          <li className="p-3 rounded-lg cursor-pointer bg-green-100 text-green-700 font-semibold">Dashboard</li>
+          <li className="p-3 cursor-pointer hover:bg-gray-200 rounded-lg">Insights</li>
+          <li className="p-3 cursor-pointer hover:bg-gray-200 rounded-lg">Tasks</li>
+          <li className="p-3 cursor-pointer hover:bg-gray-200 rounded-lg">Sales</li>
         </ul>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 bg-white shadow-lg rounded-lg">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Hello, <span className="text-indigo-600">{authUser?.username || "Guest"}</span>!
-          </h1>
+      <main className="flex-1 p-8 bg-white shadow-lg rounded-lg ml-6">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold text-gray-800">Good Morning, {authUser?.username || "User"}!</h1>
         </div>
 
-        {/* Chat Interface */}
-        <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-md max-h-[70vh] overflow-y-auto">
+        {/* Groups, Tasks, Escalations */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+            <h2 className="font-semibold text-gray-700 mb-2">Groups</h2>
+            <ul>
+              {groups.map((group, i) => {
+                return (
+                  <div onClick={() => handleClick(group)} key={i}>
+                    <li className="p-2 bg-red-100 rounded-md mb-1 cursor-pointer hover:bg-red-200">{group}</li>
+                  </div>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+            <h2 className="font-semibold text-gray-700 mb-2">Tasks</h2>
+            <ul>
+              {tasks.map((task, i) => {
+                return (
+                  <li className="p-2 bg-gray-100 rounded-md mb-1" key={i}>
+                    {task.taskName}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+            <h2 className="font-semibold text-gray-700 mb-2">Escalations ⚠️</h2>
+            <ul>
+              <li className="p-2 bg-red-100 rounded-md mb-1">Playground issue</li>
+              <li className="p-2 bg-gray-100 rounded-md">Bug report</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="p-4 bg-gray-50 rounded-lg shadow-md h-[40vh] overflow-y-auto">
           {messages.map((msg, idx) => (
-            <div 
-              key={idx} 
-              className={`p-4 my-2 rounded-lg w-fit max-w-lg ${msg.user === "You" ? "ml-auto bg-blue-500 text-white" : "mr-auto bg-gray-200 text-gray-800"}`}
+            <div
+              key={idx}
+              className={`p-4 my-2 rounded-lg max-w-lg ${msg.user === "You" ? "ml-auto bg-green-200" : "mr-auto bg-gray-200"}`}
             >
               <strong className="block mb-1">{msg.user}:</strong> {msg.text}
             </div>
           ))}
         </div>
+
         {error && <p className="text-red-500 mt-2">{error}</p>}
+
+        {/* Input Section */}
         <div className="flex mt-4 border-t pt-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-            className="flex-1 p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Ask me anything..."
+            className="flex-1 p-3 border rounded-lg shadow-sm focus:outline-none"
           />
-          <button 
-            onClick={sendMessage} 
-            className="ml-2 px-6 py-3 bg-indigo-500 text-white rounded-lg shadow-md hover:bg-indigo-600 transition"
+          <button
+            onClick={sendMessage}
+            className="ml-2 px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition"
             disabled={loading}
           >
-            {loading ? "Sending..." : "Send"}
+            {loading ? "Sending..." : <FaRegCommentDots />}
           </button>
         </div>
       </main>

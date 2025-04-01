@@ -30,7 +30,7 @@ export const generateChatResponse = async (req, res) => {
     console.log(messagefromai);
     console.log("Hi");
     await messagefromai.save();
-
+     
     res.status(200).json({ reply: response.text });
   } catch (error) {
     console.error("Error generating AI response:", error);
