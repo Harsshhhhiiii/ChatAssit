@@ -1,98 +1,129 @@
-import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../context/AuthContext";
-import { FaRegCommentDots } from "react-icons/fa";
-import Groups from "./Groups";
-import Tasks from "./Tasks";
-import SideBar from "./SideBar";
-import Escalations from "./Escalations";
+import React from "react";
+import { Card,CardContent } from "./ui/card";
+import Header from "./HomePageComponents/Header";
+import Menu from "./HomePageComponents/Menu/Menu";
+import Groups from "./HomePageComponents/Groups/Group";
+import Escalations from "./HomePageComponents/Escalations/Escalations";
+import Insights from "./HomePageComponents/Insights/Insights";
+import Tasks from "./HomePageComponents/Tasks/Tasks";
 
-const loadMessages = () => {
-  const savedMessages = localStorage.getItem("chatMessages");
-  return savedMessages ? JSON.parse(savedMessages) : [];
-};
 
 const Home = () => {
-  const [messages, setMessages] = useState(loadMessages());
-  const { authUser } = useAuthContext();
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
   
-  
-  useEffect(() => {
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
-  }, [messages]);
 
-  const sendMessage = async () => {
-    if (input.trim()) {
-      const userMessage = { text: input, user: "You" };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setInput("");
-      setLoading(true);
-      setError(null);
+  // Data for escalations
+  const escalations = [
+    {
+      title: "Channel the playground is ..",
+      group: "Alpha Conclave",
+      user: "Sagar SK",
+      userIcon:
+        "/image-of-a-man-on-his--cafe-racer-motorcycle-with-his-helmet-on.svg",
+      isUrgent: true,
+    },
+    {
+      title: "There is an issue with this ..",
+      group: "Beta Den",
+      user: "Alex",
+      userIcon:
+        "/image-of-a-man-on-his--cafe-racer-motorcycle-with-his-helmet-on.svg",
+      isUrgent: false,
+    },
+  ];
 
-      try {
-        const response = await fetch(`http://localhost:3001/api/information?question=${input}`);
-        if (!response.ok) throw new Error("Failed to fetch response");
+  // Data for menu items
+  const menuItems = [
+    {
+      name: "Dashboard",
+      icon: "/---icon--dashboard-.svg",
+      count: 2,
+      isActive: true,
+    },
+    {
+      name: "Insights",
+      icon: "/---icon--insights-.svg",
+      count: 0,
+      isActive: false,
+    },
+    {
+      name: "Tasks",
+      icon: "/---icon--pencil--1.svg",
+      count: 0,
+      isActive: false,
+    },
+    {
+      name: "Sales",
+      icon: "/group-1.svg",
+      count: 0,
+      isActive: false,
+    },
+  ];
 
-        const data = await response.json();
-        console.log(data)
-        if (data.answer) {
-          setMessages((prevMessages) => [...prevMessages, { text: data.answer, user: "AI" }]);
-        }
-      } catch (error) {
-        setError("Failed to fetch AI response. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+  // Data for AI suggestions
+  const aiSuggestions = [
+    {
+      icon: "/---icon--pencil-.png",
+      text: 'what are my\ntasks due today',
+    },
+    {
+      icon: "/---icon--person-.png",
+      text: 'what\'s happening \nwith xyz client',
+    },
+    {
+      icon: "/---icon--question-.png",
+      text: 'who has been sick\nthe most',
+    },
+  ];
+
   return (
-    <div className="flex h-screen w-full bg-gray-100 p-4">
-    <SideBar/>
-      <main className="flex-1 p-8 bg-white shadow-lg rounded-lg ml-6">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold text-gray-800">Good Morning, {authUser?.username || "User"}!</h1>
-        </div>
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="p-4 bg-gray-50 rounded-lg shadow-md">
-            <Groups/>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg shadow-md">
-            <Tasks/>
-          </div>
-          <Escalations/>
-        </div>
-        <div className="p-4 bg-gray-50 rounded-lg shadow-md h-[40vh] overflow-y-auto">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`p-4 my-2 rounded-lg max-w-lg ${msg.user === "You" ? "ml-auto bg-green-200" : "mr-auto bg-gray-200"}`}
-            >
-              <strong className="block mb-1">{msg.user}:</strong> {msg.text}
-            </div>
-          ))}
-        </div>
+    <div className="w-screen min-h-screen overflow-hidden">
+      <div className="relative w-full min-h-[1166px] bg-gradient-to-b from-white to-[#e7ffc9]">
+        {/* Header Card */}
+        <Card className="absolute w-[90%] h-[130px] top-11 left-[5%] rounded-[23px] border-[#8a8a8a]">
+          <CardContent className="p-0">
+            <Header/>
+          </CardContent>
+        </Card>
 
-        {error && <p className="text-red-500 mt-2">{error}</p>}
-        <div className="flex mt-4 border-t pt-4">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask me anything..."
-            className="flex-1 p-3 border rounded-lg shadow-sm focus:outline-none"
-          />
-          <button
-            onClick={sendMessage}
-            className="ml-2 px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition"
-            disabled={loading}
-          >
-            {loading ? "Sending..." : <FaRegCommentDots />}
-          </button>
+        {/* Menu Card */}
+        <div className="absolute w-full top-[191px] left-0 px-[2.5%]">
+          <div className="flex flex-wrap gap-6">
+            <Card className="w-[348px] h-[813px] rounded-[23px] border-[#8a8a8a]">
+              <CardContent className="p-0">
+                <Menu menuItems={menuItems} />
+              </CardContent>
+            </Card>
+
+            <div className="flex-1 grid grid-cols-3 gap-6 min-w-[900px]">
+              <Card className="h-[304px] rounded-[23px] border-[#8a8a8a]">
+                <CardContent className="p-0">
+                  <Groups/>
+                </CardContent>
+              </Card>
+
+              <Card className="h-[304px] rounded-[23px] border-[#8a8a8a] overflow-hidden">
+                <CardContent className="p-0 h-full">
+                  <Tasks/>
+                </CardContent>
+              </Card>
+
+              <Card className="h-[304px] rounded-[23px] border-[#8a8a8a]">
+                  <CardContent className="p-0">
+                    <Escalations escalations={escalations}/>
+                  </CardContent>
+                </Card>
+
+              <Card className="col-span-3 h-[480px] rounded-[23px] border-[#8a8a8a]">
+                <CardContent className="p-0 h-full">
+                  <Insights aiSuggestions={aiSuggestions}/>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
-
 export default Home;

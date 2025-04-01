@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { FaRegCommentDots } from "react-icons/fa";
 import Groups from "./Groups";
-import Tasks from "./Tasks";
+import Tasks from "./Full_Tasks";
 import SideBar from "./SideBar";
 import Escalations from "./Escalations";
 

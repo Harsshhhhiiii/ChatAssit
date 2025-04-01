@@ -51,9 +51,26 @@ app.use('/api/chat', chatroute);
 app.use('/api/message', messageroute);
 app.get('/api/groups',(req,res)=>{
     res.status(200).json({
-      groups:["Tech",
-      "Sales",
-      "Design"]
+      groups:[
+        {
+          name: "Sales",
+          icon: "/image-of-superheroes--1.svg",
+          count: 22,
+          isActive: true,
+        },
+        {
+          name: "Tech",
+          icon: "/mockup--a-billboard-over-harajuku.svg",
+          count: 12,
+          isActive: false,
+        },
+        {
+          name: "Design",
+          icon: "/duck-in-a-tie.svg",
+          count: 12,
+          isActive: false,
+        },
+      ]
 })})
 app.get('/api/tasks',(req,res)=>{
   res.status(200).json({

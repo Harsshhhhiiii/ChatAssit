@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import ChatHistory from "./Components/ChatHistory";
 import ImportantMessages from "./Components/ImportantMessages";
 import Home from "./Components/Home";
+import Full_Tasks from "./Components/Full_Tasks";
 
 function App() {
 	const { authUser } = useAuthContext();
@@ -25,6 +26,7 @@ function App() {
 				<Route path='/' element={(authUser )? <Home /> : <SignUp />} />
 				<Route path='/previous-chats/:username' element={(authUser )? <ChatHistory /> : <Login />} />
 				<Route path='/groups/:groupName' element={(authUser )? <ImportantMessages /> : <Login />} />
+				<Route path='/tasks' element={(authUser )? <Full_Tasks /> : <SignUp />}/>
 			</Routes>
 			<Toaster />
 			<ToastContainer />
