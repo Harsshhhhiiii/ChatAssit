@@ -6,7 +6,7 @@ const Groups = () => {
     const navigate = useNavigate();
       useEffect(() => {
         const getGroups = async () => {
-          const response = await fetch("http://localhost:3001/api/groups");
+          const response = await fetch("https://chatassit.onrender.com/api/groups");
           const data = await response.json();
           setGroups(data.groups);
         };

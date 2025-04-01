@@ -6,7 +6,7 @@ const Full_Tasks = () => {
     
     useEffect(() => {
         const getTasks = async () => {
-            const response = await fetch("http://localhost:3001/api/tasks");
+            const response = await fetch("https://chatassit.onrender.com/api/tasks");
             const data = await response.json();
             console.log(data.tasks.Tasks)
             const taskArray = data.tasks.Tasks.filter((e) => e.assignedTo == 101);

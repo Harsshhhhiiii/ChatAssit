@@ -12,7 +12,7 @@ const Groups = () => {
   };
   useEffect(() => {
           const getGroups = async () => {
-            const response = await fetch("http://localhost:3001/api/groups");
+            const response = await fetch("https://chatassit.onrender.com/api/groups");
             const data = await response.json();
             console.log(data)
             setGroups(data.groups);

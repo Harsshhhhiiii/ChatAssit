@@ -15,7 +15,7 @@ const ImportantMessages = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/groups/${groupName}`);
+        const response = await fetch(`https://chatassit.onrender.com/api/groups/${groupName}`);
         if (!response.ok) {
           throw new Error(`Error fetching messages for group: ${groupName}`);
         }

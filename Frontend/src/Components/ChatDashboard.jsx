@@ -31,7 +31,7 @@ const ChatDashboard = () => {
       setError(null);
 
       try {
-        const response = await fetch(`http://localhost:3001/api/information?question=${input}`);
+        const response = await fetch(`https://chatassit.onrender.com/api/information?question=${input}`);
         if (!response.ok) throw new Error("Failed to fetch response");
 
         const data = await response.json();
