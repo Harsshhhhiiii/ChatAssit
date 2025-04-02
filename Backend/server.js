@@ -6,7 +6,13 @@ import mongoose from 'mongoose';
 import authroute from './Routes/authroute.js';
 import chatroute from './Routes/chatroute.js';
 import messageroute from './Routes/messageroute.js';
-
+import TechGroupMessages from './StaticDatas.js'
+import SalesGroupMessages from './StaticDatas.js'
+import DesignGroupMessages from './StaticDatas.js'
+import Tasks  from './StaticDatas.js';
+import Insights  from './StaticDatas.js';
+import AIAgent from './AIAgent.js';
+import Sales from './StaticDatas.js'
 dotenv.config();
 
 const app = express();
@@ -18,7 +24,8 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://chat-assit.vercel.app",
   "https://chat-assit-git-main-harshits-projects-99ccb490.vercel.app",
-  "http://localhost:5173"
+  "http://localhost:5173",
+  "https://chat-assit-git-researchify-harshits-projects-99ccb490.vercel.app"
 ];
 
 app.use(cors({
@@ -45,7 +52,76 @@ app.get('/health',(req,res)=>{
 app.use('/api/auth', authroute);
 app.use('/api/chat', chatroute);
 app.use('/api/message', messageroute);
+app.get('/api/groups',(req,res)=>{
+    res.status(200).json({
+      groups:[
+        {
+          name: "Sales",
+          icon: "/image-of-superheroes--1.svg",
+          count: 22,
+          isActive: true,
+        },
+        {
+          name: "Tech",
+          icon: "/mockup--a-billboard-over-harajuku.svg",
+          count: 12,
+          isActive: false,
+        },
+        {
+          name: "Design",
+          icon: "/duck-in-a-tie.svg",
+          count: 12,
+          isActive: false,
+        },
+      ]
+})})
+app.get('/api/tasks',(req,res)=>{
+  res.status(200).json({
+    tasks:Tasks
+  })
+})
+app.get('/api/sales',(req,res)=>{
+  res.status(200).json({
+    Sales:Sales
+  })
+})
+app.get('/api/insights',(req,res)=>{
+  res.status(200).json({
+    Insights:Insights
+  })
+})
 
+app.get("/api/groups/:groupName", (req, res) => {
+  const { groupName } = req.params;
+ 
+  let groupMessages;
+
+  if (groupName === "Tech") {
+    groupMessages = TechGroupMessages;
+  } else if (groupName === "Sales") {
+    groupMessages = SalesGroupMessages;
+  } else if (groupName === "Design") {
+    groupMessages = DesignGroupMessages;
+  } else {
+    return res.status(404).json({ message: "Group not found" });
+  }
+
+  return res.json({ group: groupName, messages: groupMessages });
+});
+
+
+app.get('/api/information',async(req,res)=>{
+  const {question}=req.query;
+  console.log(question)
+  let answer=await AIAgent(question);
+  if(answer.error){
+     answer.answer="AI Agent not working"
+  }
+  res.status(200).json({
+    answer:answer.answer
+  })
+  
+})
 const mongoURI = process.env.MONGODB_URI;
 
 mongoose.connect(mongoURI)

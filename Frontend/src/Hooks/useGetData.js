@@ -7,7 +7,6 @@ const useGetData = () => {
   const [loading, setLoading] = useState(true);
   
   const { authUser } = useAuthContext();
-  // Ensure correct parsing of stored user data
   const storedUser = localStorage.getItem("chat-user");
   const username = storedUser ? JSON.parse(storedUser).username : authUser?.username;
 
@@ -31,8 +30,7 @@ const useGetData = () => {
         }
         const data = await response.json();
         console.log(data)
-        // Ensure proper filtering for AI-generated messages
-        const aiMessages = data.filter(msg => msg.sender === "AI" || msg.role === "assistant");
+        // const aiMessages = data.filter(msg => msg.sender === "AI" || msg.role === "assistant");
         setMessages(data);
       } catch (err) {
         toast.error(err.message);
@@ -42,7 +40,7 @@ const useGetData = () => {
     };
 
     fetchMessages();
-  }, [username]); // Dependency added to refetch when `username` changes
+  }, [username]); 
 
   return { messages, loading };
 };

@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
 import User from "../Models/usermodel.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 export const signupf = async (req, res) => {
 	try {
-		const {  username, password, confirmPassword } = req.body;
-
+		const {  username, password, confirmPassword } = req.body; 
+        
 		if (password !== confirmPassword) {
 			return res.status(400).json({ error: "Passwords don't match" });
 		}
@@ -17,7 +17,7 @@ export const signupf = async (req, res) => {
 
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
-
+         
 		
 		const newUser = new User({
 			
@@ -26,14 +26,6 @@ export const signupf = async (req, res) => {
 			
 		});
         
-		
-		// const token = jwt.sign({ username }, process.env.JWT_SECRET, {
-		// 	expiresIn: "3d",
-		//   });
-	  
-		//   console.log("Generated JWT Token:", token);
-		//   console.log(req.cookies.jwt);
-
 		if (newUser) {
 			
 			await newUser.save();
@@ -57,7 +49,7 @@ export const signupf = async (req, res) => {
 		const { username, password } = req.body;
 		const user = await User.findOne({ username });
 		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-  
+        
 		if (!user || !isPasswordCorrect) {
 			return res.status(400).json({ error: "Invalid username or password" });
 		}
