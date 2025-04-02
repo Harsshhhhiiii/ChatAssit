@@ -9,7 +9,7 @@ const TaskList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/tasks');
+        const response = await fetch('https://chatassit.onrender.com/api/tasks');
         const data = await response.json();
         console.log('Fetched Data:', data);
 

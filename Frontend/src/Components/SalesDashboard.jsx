@@ -9,7 +9,7 @@ const SalesDashboard = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/sales');
+        const response = await axios.get('https://chatassit.onrender.com/api/sales');
         
         // Add data validation
         console.log(response.data.Sales.Sales)
