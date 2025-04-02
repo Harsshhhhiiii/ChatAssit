@@ -9,7 +9,7 @@ const InsightsDashboard = () => {
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const response = await fetch('/api/insights');
+        const response = await fetch('https://chatassit.onrender.com/api/insights');
         const data=await response.json();
         setInsights(data.Insights.Insights);
         // console.log(data.Insights.Insights);
