@@ -9,7 +9,7 @@ const InsightsDashboard = () => {
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/insights');
+        const response = await fetch('/api/insights');
         const data=await response.json();
         setInsights(data.Insights.Insights);
         // console.log(data.Insights.Insights);
